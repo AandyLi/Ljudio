@@ -1,0 +1,97 @@
+@import url("https://fonts.googleapis.com/css2?family=Titillium+Web:wght@600&display=swap");
+.App {
+    font-family: "Titillium Web", sans-serif;
+    font-size: large;
+}
+
+.App-logo {
+    height: 40vmin;
+    pointer-events: none;
+}
+
+.App-header {
+    background-color: #282c34;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    font-size: calc(10px + 2vmin);
+    color: white;
+}
+
+.App-link {
+    color: #61dafb;
+}
+
+button {
+    font-size: calc(10px + 2vmin);
+    background-color: #b8dff0;
+    border-radius: 5px;
+    font-family: "Titillium Web", sans-serif;
+}
+
+#body {
+    background-color: #7971ea;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 0 20vw;
+}
+
+h1 {
+    color: #d8d8d8;
+}
+p {
+    color: rgb(255, 255, 255);
+}
+.field {
+    width: 100%;
+    height: 56px;
+    border-radius: 4px;
+    position: relative;
+    background-color: #b8dff0;
+    transition: 0.3s all;
+}
+.field:hover {
+    background-color: #a6cada;
+    box-shadow: 0px 4px 20px 0px rgba(0, 0, 0, 0.05);
+}
+.field input {
+    width: 100%;
+    height: 56px;
+    position: relative;
+    padding: 0px 16px;
+    border: none;
+    border-radius: 4px;
+    font-family: "Titillium Web", sans-serif;
+    font-size: 20px;
+    font-weight: 400;
+    line-height: normal;
+    background-color: transparent;
+    color: #282828;
+    outline: none;
+    box-shadow: 0px 4px 20px 0px transparent;
+    transition: 0.3s background-color ease-in-out, 0.3s box-shadow ease-in-out,
+        0.1s padding ease-in-out;
+    -webkit-appearance: none;
+}
+
+.playerControls {
+    position: sticky;
+    bottom: 0;
+    height: 95px;
+    background-color: #7971ea;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.playPause {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    width: 20%;
+    max-width: 130px;
+}
