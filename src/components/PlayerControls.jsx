@@ -34,6 +34,10 @@ function PlayerControls() {
         };
         player.currentSongIndex++;
         player.currentSongId = id;
+        player.currentSong = {
+            artist: context.results[player.currentSongIndex].artist.name,
+            title: context.results[player.currentSongIndex].name,
+        };
         updateContext({ player: player });
     }
     function Previous() {
@@ -47,6 +51,10 @@ function PlayerControls() {
         };
         player.currentSongIndex--;
         player.currentSongId = id;
+        player.currentSong = {
+            artist: context.results[player.currentSongIndex].artist.name,
+            title: context.results[player.currentSongIndex].name,
+        };
         updateContext({ player: player });
     }
 
@@ -59,9 +67,9 @@ function PlayerControls() {
     }
     return (
         <div className="playerControls">
-            <div>
-                <h3>Artist name</h3>
-                <h4>Song name</h4>
+            <div id="songInfo">
+                <h3>{context.player.currentSong.artist}</h3>
+                <h4>{context.player.currentSong.title}</h4>
             </div>
             <div className="playPause">
                 <i onClick={Previous} className="fas fa-backward fa-2x"></i>

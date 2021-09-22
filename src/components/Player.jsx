@@ -1,8 +1,8 @@
-import React, { useState } from "react";
+import React, { useContext } from "react";
 import { Context } from "../App";
 
 function Player() {
-    const [context, updateContext] = useContext(Context);
+    //const [context, updateContext] = useContext(Context);
 
     function PlayVideo(id) {
         console.log("playing video in video player", id);

@@ -18,7 +18,6 @@ function App() {
             currentSong: {},
             currentSongIndex: 0,
             currentSongId: 0,
-            playList: [],
         },
     });
     function updateContext(updates) {
@@ -43,13 +42,8 @@ function App() {
             `https://yt-music-api.herokuapp.com/api/yt/${dropDownValue}/${searchInput}`
         );
         const data = await response.json();
-        //console.log(data);
-        let player = {};
-        let playList = data.content.map((song) => {
-            return song.videoId;
-        });
-        player.playList = playList;
-        updateContext({ results: data.content, player: player });
+
+        updateContext({ results: data.content });
     };
 
     const test = () => {
@@ -76,10 +70,7 @@ function App() {
                     <button onClick={btnClick}>Sök!</button>
                     <button onClick={test}>test!</button>
                 </div>
-                <SearchResults
-                    playState={setPlayState}
-                    player={Player}
-                ></SearchResults>
+                <SearchResults playState={setPlayState}></SearchResults>
                 {playState ? <PlayerControls /> : <></>}
                 <Footer></Footer>
             </div>

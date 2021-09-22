@@ -5,7 +5,6 @@ import playingGif from "../img/sound.gif";
 
 function SearchResults(props) {
     const [context, setContext] = useContext(Context);
-
     function updateContext(updates) {
         setContext({
             ...context,
@@ -18,8 +17,13 @@ function SearchResults(props) {
         let player = {
             ...context.player,
         };
+
         player.currentSongIndex = context.results.findIndex(currentIndex);
         player.currentSongId = id;
+        player.currentSong = {
+            artist: context.results[player.currentSongIndex].artist.name,
+            title: context.results[player.currentSongIndex].name,
+        };
         updateContext({ player: player });
         console.log("playing video", id);
         window.player.loadVideoById(id);
