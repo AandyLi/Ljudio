@@ -4,6 +4,7 @@ import Header from "./components/Header";
 import Footer from "./components/Footer";
 import SearchResults from "./components/SearchResults";
 import PlayerControls from "./components/PlayerControls";
+import Player from "./components/Player";
 
 export const Context = createContext();
 
@@ -11,6 +12,14 @@ function App() {
     const [context, setContext] = useState({
         results: [],
         artist: {},
+        songs: [],
+        player: {
+            isPlaying: false,
+            currentSong: {},
+            currentSongIndex: 0,
+            currentSongId: 0,
+            playList: [],
+        },
     });
     function updateContext(updates) {
         setContext({
@@ -35,7 +44,13 @@ function App() {
             `https://yt-music-api.herokuapp.com/api/yt/${dropDownValue}/${searchInput}`
         );
         const data = await response.json();
-        updateContext({ results: data.content });
+        //console.log(data);
+        let player = {};
+        let playList = data.content.map((song) => {
+            return song.videoId;
+        });
+        player.playList = playList;
+        updateContext({ results: data.content, player: player });
     };
 
     const test = () => {
@@ -62,7 +77,10 @@ function App() {
                     <button onClick={btnClick}>Sök!</button>
                     <button onClick={test}>test!</button>
                 </div>
-                <SearchResults playState={setPlayState}></SearchResults>
+                <SearchResults
+                    playState={setPlayState}
+                    player={Player}
+                ></SearchResults>
                 {playState ? <PlayerControls /> : <></>}
                 <Footer></Footer>
             </div>

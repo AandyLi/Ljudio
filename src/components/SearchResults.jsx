@@ -6,9 +6,14 @@ import playingGif from "../img/sound.gif";
 function SearchResults(props) {
     const [context, setContext] = useContext(Context);
     const [currentPlayingId, setCurrentPlayingId] = useState(0);
-    const [artistSongs, setArtistSongs] = useState([]);
+    const [artistSongs, setArtistSongs] = useState({
+        songs: [],
+    });
     const [loaded, setLoaded] = useState(false);
-    const [songOverride, setSongOverride] = useState(false);
+
+    function updateSongs(updates) {
+        setArtistSongs({ ...artistSongs, ...updates });
+    }
 
     function updateContext(updates) {
         setContext({
@@ -18,12 +23,18 @@ function SearchResults(props) {
     }
 
     function PlayVideo(id) {
+        const currentIndex = (element) => element.videoId === id;
+        let player = {
+            ...context.player,
+        };
+        player.currentSongIndex = context.results.findIndex(currentIndex);
+        player.currentSongId = id;
+        updateContext({ player: player });
         console.log("playing video", id);
         window.player.loadVideoById(id);
         window.player.playVideo();
         window.player.setVolume(10);
         props.playState(true);
-        setCurrentPlayingId(id);
     }
 
     function MusicSection(props) {
@@ -48,7 +59,7 @@ function SearchResults(props) {
                         <h4>{song.artist.name}</h4>
                         <img
                             src={
-                                currentPlayingId === song.videoId
+                                context.player.currentSongId === song.videoId
                                     ? playingGif
                                     : ""
                             }
@@ -78,21 +89,61 @@ function SearchResults(props) {
         const response = await fetch(
             `https://yt-music-api.herokuapp.com/api/yt/artist/${artistId}`
         );
-        const data = await response.json();
-        console.log(data);
+        const artistInfo = await response.json();
+        console.log(artistInfo); // handle error if no data..
+
+        // updateContext({
+        //     results: [],
+        //     artist: artistInfo,
+        // });
+
+        let songsToAdd = [];
+        // Fetch artist songs
+
+        await Promise.all(
+            artistInfo.products.songs.content.map(async (song) => {
+                await fetch(
+                    `https://yt-music-api.herokuapp.com/api/yt/songs/${song.name}`
+                ).then(async (songResponse) => {
+                    const songData = await songResponse.json();
+                    songsToAdd.push(songData.content[0]);
+                    console.log("new song", songData.content[0]);
+                });
+            })
+        );
+
+        // setTimeout(() => {
+        console.log("new song - setting songs", JSON.stringify(songsToAdd));
         updateContext({
             results: [],
-            artist: data,
+            artist: artistInfo,
+            songs: songsToAdd,
         });
-        //setSongOverride(true);
+        // }, 1000);
     };
 
-    function ArtistSection({ artist }) {
+    function ArtistSection() {
+        console.log("artist section", JSON.stringify(context.songs));
+        console.log(context.songs.length);
+        // if (artistSongs.length > 0) {
+        //     artistSongs[0].forEach((song) => {
+        //         console.log(song.name);
+        //     });
+        // }
         return (
             <div>
-                <section>
-                    <h2>{artist.name}</h2>
-                    <h3>{artist.description}</h3>
+                <section className="artistSection">
+                    {context.artist.thumbnails !== undefined ? (
+                        <img src={context.artist.thumbnails[0].url} alt="" />
+                    ) : (
+                        <></>
+                    )}
+                    <h2>{context.artist.name}</h2>
+                    <h3>{context.artist.description}</h3>
+
+                    {context.songs.map((song) => (
+                        <Section result={song} />
+                    ))}
                 </section>
             </div>
         );
@@ -137,9 +188,9 @@ function SearchResults(props) {
     }
 
     function Section(props) {
-        console.log("sec", props.result);
+        // console.log("sec", props.result);
         var result = props.result;
-        if (result.type === "song" || songOverride) {
+        if (result.type === "song") {
             return <MusicSection song={result} />;
         }
         if (result.type === "album") {
@@ -151,21 +202,33 @@ function SearchResults(props) {
         if (result.type === "playlist") {
             return <PlaylistSection song={result} />;
         } else {
+            return <></>;
         }
+    }
+
+    function test() {
+        console.log("test", artistSongs);
+    }
+
+    function Results() {
+        if (context.results.length > 0) {
+            return (
+                <div className="grid-container">
+                    {context.results.map((searchResult) => (
+                        <Section result={searchResult} />
+                    ))}
+                </div>
+            );
+        }
+        return (
+            <ArtistSection artist={context.artist} key={context.artist.views} />
+        );
     }
 
     return (
         <div>
-            {/* <h2>Search Results </h2> */}
-            <div className="grid-container">
-                {context.results.length > 0 ? (
-                    context.results.map((searchResult) => (
-                        <Section result={searchResult} />
-                    ))
-                ) : (
-                    <ArtistSection artist={context.artist} />
-                )}
-            </div>
+            <Results />
+            <button onClick={() => test()}> Test </button>
         </div>
     );
 }
