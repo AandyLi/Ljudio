@@ -5,15 +5,6 @@ import playingGif from "../img/sound.gif";
 
 function SearchResults(props) {
     const [context, setContext] = useContext(Context);
-    const [currentPlayingId, setCurrentPlayingId] = useState(0);
-    const [artistSongs, setArtistSongs] = useState({
-        songs: [],
-    });
-    const [loaded, setLoaded] = useState(false);
-
-    function updateSongs(updates) {
-        setArtistSongs({ ...artistSongs, ...updates });
-    }
 
     function updateContext(updates) {
         setContext({
@@ -92,13 +83,8 @@ function SearchResults(props) {
         const artistInfo = await response.json();
         console.log(artistInfo); // handle error if no data..
 
-        // updateContext({
-        //     results: [],
-        //     artist: artistInfo,
-        // });
-
-        let songsToAdd = [];
         // Fetch artist songs
+        let songsToAdd = [];
 
         await Promise.all(
             artistInfo.products.songs.content.map(async (song) => {
@@ -112,24 +98,15 @@ function SearchResults(props) {
             })
         );
 
-        // setTimeout(() => {
         console.log("new song - setting songs", JSON.stringify(songsToAdd));
         updateContext({
             results: [],
             artist: artistInfo,
             songs: songsToAdd,
         });
-        // }, 1000);
     };
 
     function ArtistSection() {
-        console.log("artist section", JSON.stringify(context.songs));
-        console.log(context.songs.length);
-        // if (artistSongs.length > 0) {
-        //     artistSongs[0].forEach((song) => {
-        //         console.log(song.name);
-        //     });
-        // }
         return (
             <div>
                 <section className="artistSection">
@@ -204,10 +181,6 @@ function SearchResults(props) {
         } else {
             return <></>;
         }
-    }
-
-    function test() {
-        console.log("test", artistSongs);
     }
 
     function Results() {

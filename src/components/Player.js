@@ -9,7 +9,6 @@ function Player() {
         window.player.loadVideoById(id);
         window.player.playVideo();
         window.player.setVolume(10);
-        //props.playState(true);
     }
 }
 

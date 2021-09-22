@@ -31,7 +31,6 @@ function App() {
     const [searchInput, setInput] = useState("");
     const [playState, setPlayState] = useState(false);
     const [dropDownValue, setDropDownValue] = useState("songs");
-    const [results, variableUpdate] = useState([]);
 
     const changeSearchInput = (value) => {
         setInput(value);
