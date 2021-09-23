@@ -1,7 +1,9 @@
-import React, { useContext, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { Context } from "../App";
 function PlayerControls() {
     const [isPlaying, setIsPlaying] = useState(true);
+    const [playProgress, setPlayProgress] = useState(0);
+    const [maxDuration, setMaxDuration] = useState(0);
     const [context, setContext] = useContext(Context);
 
     function updateContext(updates) {
@@ -11,10 +13,24 @@ function PlayerControls() {
         });
     }
 
+    useEffect(() => {
+        const id = setInterval(() => {
+            if (isPlaying) {
+                console.log("updating play progress");
+                setPlayProgress(window.player.getCurrentTime());
+                setMaxDuration(player.getDuration());
+            }
+        }, 1000);
+        return () => clearInterval(id);
+    });
+    function Seek(value) {
+        window.player.seekTo(value);
+        setPlayProgress(value);
+    }
+
     function VolumeChange(value) {
         window.player.setVolume(value);
     }
-
     function Resume() {
         window.player.playVideo();
         setIsPlaying(true);
@@ -67,24 +83,36 @@ function PlayerControls() {
     }
     return (
         <div className="playerControls">
-            <div id="songInfo">
-                <h3>{context.player.currentSong.artist}</h3>
-                <h4>{context.player.currentSong.title}</h4>
-            </div>
-            <div className="playPause">
-                <i onClick={Previous} className="fas fa-backward fa-2x"></i>
-                <PlayPause />
-                <i onClick={Next} className="fas fa-forward fa-2x"></i>
+            <div className="tt">
+                <div id="songInfo">
+                    <h3>{context.player.currentSong.artist}</h3>
+                    <h4>{context.player.currentSong.title}</h4>
+                </div>
+                <div className="playPause">
+                    <i onClick={Previous} className="fas fa-backward fa-2x"></i>
+                    <PlayPause />
+                    <i onClick={Next} className="fas fa-forward fa-2x"></i>
+                </div>
+                <input
+                    type="range"
+                    min="0"
+                    max="100"
+                    id="myRange"
+                    onChange={(e) => {
+                        VolumeChange(e.target.value);
+                    }}
+                ></input>
             </div>
             <input
                 type="range"
                 min="0"
-                max="100"
-                id="myRange"
+                max={maxDuration}
+                value={playProgress}
+                className="progressRange"
                 onChange={(e) => {
-                    VolumeChange(e.target.value);
+                    Seek(e.target.value);
                 }}
-            ></input>
+            />
         </div>
     );
 }

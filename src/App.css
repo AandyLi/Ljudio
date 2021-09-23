@@ -78,20 +78,30 @@ p {
     -webkit-appearance: none;
 }
 
+.tt {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
 .playerControls {
     position: sticky;
     bottom: 0;
     height: 95px;
     background-color: #7971ea;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
 }
 #songInfo {
     width: 250px;
 }
 
-#songInfo h3 h4 {
+#songInfo h3 {
+    margin: 0 5px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    display: -webkit-box;
+    -webkit-line-clamp: 2; /* number of lines to show */
+    -webkit-box-orient: vertical;
+}
+#songInfo h4 {
     margin: 0 5px;
     overflow: hidden;
     text-overflow: ellipsis;
@@ -107,4 +117,7 @@ p {
     width: 20%;
     max-width: 250px;
     margin-left: -150px;
+}
+.progressRange {
+    width: 100%;
 }

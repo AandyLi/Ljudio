@@ -1,16 +1,36 @@
-import React, { useContext, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { Context } from "../App";
 import "./SearchResults.css";
 import playingGif from "../img/sound.gif";
 
+import ReactDOM from "react-dom";
+import {
+    BrowserRouter as Router,
+    Route,
+    Switch,
+    useParams,
+} from "react-router-dom";
+
 function SearchResults(props) {
+    let { searchTerm, searchValue } = useParams();
     const [context, setContext] = useContext(Context);
+    const [artistClicked, setArtistClicked] = useState(false);
     function updateContext(updates) {
         setContext({
             ...context,
             ...updates,
         });
     }
+
+    useEffect(async () => {
+        console.log("Inside useEffect, page load function");
+        const response = await fetch(
+            `https://yt-music-api.herokuapp.com/api/yt/${searchTerm}/${searchValue}`
+        );
+        const data = await response.json();
+        console.log(data);
+        updateContext({ results: data.content });
+    }, []);
 
     function PlayVideo(id) {
         const currentIndex = (element) => element.videoId === id;
@@ -79,8 +99,9 @@ function SearchResults(props) {
         );
     }
 
-    const btnClick = async (artistId) => {
+    const clickOnArtist = async (artistId) => {
         console.log("artist clicked", artistId);
+        setArtistClicked(true);
         const response = await fetch(
             `https://yt-music-api.herokuapp.com/api/yt/artist/${artistId}`
         );
@@ -104,7 +125,7 @@ function SearchResults(props) {
 
         console.log("new song - setting songs", JSON.stringify(songsToAdd));
         updateContext({
-            results: [],
+            results: songsToAdd,
             artist: artistInfo,
             songs: songsToAdd,
         });
@@ -135,7 +156,7 @@ function SearchResults(props) {
         return (
             <div
                 className="songResult"
-                onClick={() => btnClick(artist.browseId)}
+                onClick={() => clickOnArtist(artist.browseId)}
                 key={artist.browseId}
             >
                 <div
@@ -188,7 +209,7 @@ function SearchResults(props) {
     }
 
     function Results() {
-        if (context.results.length > 0) {
+        if (context.results.length > 0 && !artistClicked) {
             return (
                 <div className="grid-container">
                     {context.results.map((searchResult) => (
@@ -198,10 +219,19 @@ function SearchResults(props) {
             );
         }
         return (
-            <ArtistSection artist={context.artist} key={context.artist.views} />
+            <div>
+                <h1>{searchValue}</h1>
+                <ArtistSection
+                    artist={context.artist}
+                    key={context.artist.views}
+                />
+            </div>
         );
     }
-
+    function test() {
+        // router push
+        history.push("/songs/abba/");
+    }
     return (
         <div>
             <Results />
