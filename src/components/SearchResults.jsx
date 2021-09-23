@@ -258,14 +258,9 @@ function SearchResults(props) {
             </div>
         );
     }
-    function test() {
-        // router push
-        history.push("/songs/abba/");
-    }
     return (
         <div>
             <Results />
-            <button onClick={() => test()}> Test </button>
         </div>
     );
 }

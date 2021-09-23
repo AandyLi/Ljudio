@@ -26,13 +26,27 @@
 
 button {
     font-size: calc(10px + 2vmin);
-    background-color: #b8dff0;
+    background-color: #fb5151;
     border-radius: 5px;
     font-family: "Titillium Web", sans-serif;
+    border: none;
+}
+button:hover {
+    background-color: #cbcccd;
+    transition: 0.3s all;
 }
 
+body {
+    margin-top: -21px;
+    background: rgb(208, 208, 208);
+    background: linear-gradient(
+        180deg,
+        rgba(208, 208, 208, 1) 0%,
+        rgba(0, 61, 80, 1) 100%
+    );
+}
 #body {
-    background-color: #7971ea;
+    background-color: #7971ea00;
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -41,7 +55,7 @@ button {
 }
 
 h1 {
-    color: #d8d8d8;
+    color: #fb5151;
 }
 p {
     color: rgb(255, 255, 255);
@@ -51,11 +65,12 @@ p {
     height: 56px;
     border-radius: 4px;
     position: relative;
-    background-color: #b8dff0;
+    background-color: #9cabb0;
     transition: 0.3s all;
+    margin-bottom: 10px;
 }
 .field:hover {
-    background-color: #a6cada;
+    background-color: #cbcccd;
     box-shadow: 0px 4px 20px 0px rgba(0, 0, 0, 0.05);
 }
 .field input {
@@ -87,7 +102,7 @@ p {
     position: sticky;
     bottom: 0;
     height: 95px;
-    background-color: #7971ea;
+    background-color: #1649599b;
 }
 #songInfo {
     width: 250px;
@@ -118,6 +133,59 @@ p {
     max-width: 250px;
     margin-left: -150px;
 }
+.playPause i {
+    color: #fb5151;
+}
 .progressRange {
     width: 100%;
+}
+
+.select {
+    position: relative;
+    display: inline-block;
+    margin-bottom: 15px;
+    width: 100%;
+}
+.select select {
+    font-family: "Arial";
+    display: inline-block;
+    width: 100%;
+    cursor: pointer;
+    padding: 16px 15px;
+    outline: 0;
+    border: 0px solid #000000;
+    border-radius: 0px;
+    background: #9cabb0;
+    color: #000000;
+    appearance: none;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+}
+.select select::-ms-expand {
+    display: none;
+}
+.select select:hover,
+.select select:focus {
+    color: #000000;
+    background: #cbcccd;
+}
+.select select:disabled {
+    opacity: 0.5;
+    pointer-events: none;
+}
+.select_arrow {
+    position: absolute;
+    top: 15px;
+    right: 15px;
+    pointer-events: none;
+    border-style: solid;
+    border-width: 8px 5px 0px 5px;
+    border-color: #7b7b7b transparent transparent transparent;
+}
+.select select:hover ~ .select_arrow,
+.select select:focus ~ .select_arrow {
+    border-top-color: #000000;
+}
+.select select:disabled ~ .select_arrow {
+    border-top-color: #cccccc;
 }

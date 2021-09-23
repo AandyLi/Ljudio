@@ -52,13 +52,17 @@ function MainContent() {
                             }}
                         ></input>
                     </div>
-                    <select onChange={(e) => setDropDownValue(e.target.value)}>
-                        <option value="songs">Musik</option>
-                        <option value="artists">Artist</option>
-                        <option value="playlists">Playlists</option>
-                    </select>
+                    <div className="select">
+                        <select
+                            onChange={(e) => setDropDownValue(e.target.value)}
+                        >
+                            <option value="songs">Musik</option>
+                            <option value="artists">Artist</option>
+                            <option value="playlists">Playlists</option>
+                        </select>
+                        <div className="select_arrow"></div>
+                    </div>
                     <button onClick={Search}>Sök!</button>
-                    <button onClick={test}>test!</button>
                 </div>
                 <Switch>
                     <Route
