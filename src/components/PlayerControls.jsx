@@ -74,6 +74,21 @@ function PlayerControls() {
         updateContext({ player: player });
     }
 
+    function CurrentArtist() {
+        if (!context.player.currentSong) {
+            return <h3>Undefined</h3>;
+        } else {
+            return <h3>{context.player.currentSong.artist}</h3>;
+        }
+    }
+    function CurrentSong() {
+        if (!context.player.currentSong) {
+            return <h4>Undefined</h4>;
+        } else {
+            return <h4>{context.player.currentSong.title}</h4>;
+        }
+    }
+
     function PlayPause() {
         if (isPlaying) {
             return <i onClick={Pause} className="fas fa-pause fa-3x"></i>;
@@ -85,8 +100,8 @@ function PlayerControls() {
         <div className="playerControls">
             <div className="tt">
                 <div id="songInfo">
-                    <h3>{context.player.currentSong.artist}</h3>
-                    <h4>{context.player.currentSong.title}</h4>
+                    <CurrentArtist />
+                    <CurrentSong />
                 </div>
                 <div className="playPause">
                     <i onClick={Previous} className="fas fa-backward fa-2x"></i>

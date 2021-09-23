@@ -35,7 +35,7 @@ function MainContent() {
         updateContext({
             artistClicked: false,
         });
-        history.push(`/search/${dropDownValue}/${searchInput}`);
+        history.push(`/search/${dropDownValue}/${searchInput}/undefined`);
     }
 
     return (
@@ -61,7 +61,10 @@ function MainContent() {
                     <button onClick={test}>test!</button>
                 </div>
                 <Switch>
-                    <Route exact path="/search/:searchTerm/:searchValue">
+                    <Route
+                        exact
+                        path="/search/:searchTerm/:searchValue/:videoId"
+                    >
                         <SearchResults playState={setPlayState} />
                     </Route>
                 </Switch>

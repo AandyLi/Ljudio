@@ -13,7 +13,7 @@ import {
 } from "react-router-dom";
 
 function SearchResults(props) {
-    let { searchTerm, searchValue } = useParams();
+    let { searchTerm, searchValue, videoId } = useParams();
     let { artistId } = useParams();
     const history = useHistory();
     const [context, setContext] = useContext(Context);
@@ -25,14 +25,26 @@ function SearchResults(props) {
     }
 
     useEffect(async () => {
-        console.log("Inside useEffect, page load function");
         const response = await fetch(
             `https://yt-music-api.herokuapp.com/api/yt/${searchTerm}/${searchValue}`
         );
         const data = await response.json();
-        console.log(data);
-        updateContext({ results: data.content });
+
+        if (videoId !== undefined) {
+            var player = {
+                isPlaying: true,
+            };
+            updateContext({ results: data.content, player: player });
+        } else {
+            updateContext({ results: data.content });
+        }
     }, [searchTerm, searchValue]);
+
+    useEffect(async () => {
+        setTimeout(() => {
+            PlayVideo(videoId);
+        }, 1000);
+    }, [context.player.isPlaying]);
 
     useEffect(async () => {
         if (props.artist) {
@@ -45,7 +57,6 @@ function SearchResults(props) {
         let player = {
             ...context.player,
         };
-
         player.currentSongIndex = context.results.findIndex(currentIndex);
         player.currentSongId = id;
         player.currentSong = {
@@ -74,7 +85,14 @@ function SearchResults(props) {
                 ></div>
                 <div
                     className="play-button far fa-play-circle fa-4x"
-                    onClick={() => PlayVideo(song.videoId)}
+                    onClick={() => {
+                        //PlayVideo(song.videoId);
+                        console.log(`/search/songs/${searchValue}/${videoId}`);
+                        PlayVideo(song.videoId);
+                        history.push(
+                            `/search/songs/${searchValue}/${song.videoId}`
+                        );
+                    }}
                 ></div>
                 <div className="songInfo">
                     <section key={song.videoId}>
