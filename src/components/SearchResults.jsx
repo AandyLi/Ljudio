@@ -9,12 +9,14 @@ import {
     Route,
     Switch,
     useParams,
+    useHistory,
 } from "react-router-dom";
 
 function SearchResults(props) {
     let { searchTerm, searchValue } = useParams();
+    let { artistId } = useParams();
+    const history = useHistory();
     const [context, setContext] = useContext(Context);
-    const [artistClicked, setArtistClicked] = useState(false);
     function updateContext(updates) {
         setContext({
             ...context,
@@ -30,7 +32,13 @@ function SearchResults(props) {
         const data = await response.json();
         console.log(data);
         updateContext({ results: data.content });
-    }, []);
+    }, [searchTerm, searchValue]);
+
+    useEffect(async () => {
+        if (props.artist) {
+            clickOnArtist(artistId);
+        }
+    }, [props.artist]);
 
     function PlayVideo(id) {
         const currentIndex = (element) => element.videoId === id;
@@ -100,8 +108,11 @@ function SearchResults(props) {
     }
 
     const clickOnArtist = async (artistId) => {
+        if (!props.artist) {
+            history.push(`/artist/${artistId}`);
+        }
+
         console.log("artist clicked", artistId);
-        setArtistClicked(true);
         const response = await fetch(
             `https://yt-music-api.herokuapp.com/api/yt/artist/${artistId}`
         );
@@ -126,6 +137,7 @@ function SearchResults(props) {
         console.log("new song - setting songs", JSON.stringify(songsToAdd));
         updateContext({
             results: songsToAdd,
+            artistClicked: true,
             artist: artistInfo,
             songs: songsToAdd,
         });
@@ -209,7 +221,7 @@ function SearchResults(props) {
     }
 
     function Results() {
-        if (context.results.length > 0 && !artistClicked) {
+        if (context.results.length > 0 && !context.artistClicked) {
             return (
                 <div className="grid-container">
                     {context.results.map((searchResult) => (

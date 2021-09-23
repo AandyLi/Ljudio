@@ -14,6 +14,7 @@ function App() {
     const [context, setContext] = useState({
         results: [],
         artist: {},
+        artistClicked: false,
         songs: [],
         player: {
             isPlaying: false,
