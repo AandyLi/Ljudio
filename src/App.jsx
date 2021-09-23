@@ -17,7 +17,7 @@ function App() {
         artistClicked: false,
         songs: [],
         player: {
-            isPlaying: false,
+            startPlaying: false,
             currentSong: {},
             currentSongIndex: 0,
             currentSongId: 0,

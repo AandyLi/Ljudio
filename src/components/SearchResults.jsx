@@ -32,7 +32,7 @@ function SearchResults(props) {
 
         if (videoId !== undefined) {
             var player = {
-                isPlaying: true,
+                startPlaying: true,
             };
             updateContext({ results: data.content, player: player });
         } else {
@@ -44,11 +44,11 @@ function SearchResults(props) {
         setTimeout(() => {
             PlayVideo(videoId);
         }, 1000);
-    }, [context.player.isPlaying]);
+    }, [context.player.startPlaying]);
 
     useEffect(async () => {
         if (props.artist) {
-            clickOnArtist(artistId);
+            showArtist(artistId);
         }
     }, [props.artist]);
 
@@ -125,7 +125,7 @@ function SearchResults(props) {
         );
     }
 
-    const clickOnArtist = async (artistId) => {
+    const showArtist = async (artistId) => {
         if (!props.artist) {
             history.push(`/artist/${artistId}`);
         }
@@ -135,7 +135,8 @@ function SearchResults(props) {
             `https://yt-music-api.herokuapp.com/api/yt/artist/${artistId}`
         );
         const artistInfo = await response.json();
-        console.log(artistInfo); // handle error if no data..
+        // todo: handle error if no data..
+        //console.log(artistInfo);
 
         // Fetch artist songs
         let songsToAdd = [];
@@ -152,7 +153,6 @@ function SearchResults(props) {
             })
         );
 
-        console.log("new song - setting songs", JSON.stringify(songsToAdd));
         updateContext({
             results: songsToAdd,
             artistClicked: true,
@@ -186,7 +186,7 @@ function SearchResults(props) {
         return (
             <div
                 className="songResult"
-                onClick={() => clickOnArtist(artist.browseId)}
+                onClick={() => showArtist(artist.browseId)}
                 key={artist.browseId}
             >
                 <div
@@ -220,7 +220,6 @@ function SearchResults(props) {
     }
 
     function Section(props) {
-        // console.log("sec", props.result);
         var result = props.result;
         if (result.type === "song") {
             return <MusicSection song={result} />;
@@ -250,7 +249,6 @@ function SearchResults(props) {
         }
         return (
             <div>
-                <h1>{searchValue}</h1>
                 <ArtistSection
                     artist={context.artist}
                     key={context.artist.views}
