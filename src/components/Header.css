@@ -1,10 +1,15 @@
 header {
     width: 100%;
     background-color: #1a2c5b00;
+    min-height: 5vh;
 }
 .header-content {
     display: flex;
     justify-content: space-evenly;
     align-items: center;
     padding: 0 30vw;
+}
+a {
+    text-decoration: none;
+    cursor: pointer;
 }

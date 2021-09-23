@@ -29,6 +29,10 @@ function SearchResults(props) {
         if (videoId !== undefined) {
             var player = {
                 startPlaying: true,
+                currentSong: {
+                    artist: context.player.currentSong.artist || "",
+                    title: context.player.currentSong.title || "",
+                },
             };
             updateContext({ results: data.content, player: player });
         } else {

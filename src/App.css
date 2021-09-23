@@ -45,13 +45,27 @@ body {
         rgba(0, 61, 80, 1) 100%
     );
 }
-#body {
+.body-expand {
     background-color: #7971ea00;
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: center;
     padding: 0 20vw;
+    min-height: 90vh;
+    -webkit-transition: all 0.3s linear 0s;
+    transition: all 0.3s linear 0s;
+}
+.body {
+    background-color: #7971ea00;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 0 20vw;
+    min-height: 20vh;
+    -webkit-transition: all 0.3s linear 0s;
+    transition: all 0.3s linear 0s;
 }
 
 h1 {
@@ -60,10 +74,21 @@ h1 {
 p {
     color: rgb(255, 255, 255);
 }
+
+.searchBar {
+    display: flex;
+    flex-direction: row;
+    width: 100%;
+}
+.searchBar div > select {
+    width: 100px;
+}
+
 .field {
     width: 100%;
     height: 56px;
-    border-radius: 4px;
+    border-bottom-right-radius: 4px;
+    border-top-right-radius: 4px;
     position: relative;
     background-color: #9cabb0;
     transition: 0.3s all;
@@ -85,7 +110,7 @@ p {
     font-weight: 400;
     line-height: normal;
     background-color: transparent;
-    color: #282828;
+    color: #000000;
     outline: none;
     box-shadow: 0px 4px 20px 0px transparent;
     transition: 0.3s background-color ease-in-out, 0.3s box-shadow ease-in-out,
@@ -102,7 +127,7 @@ p {
     position: sticky;
     bottom: 0;
     height: 95px;
-    background-color: #1649599b;
+    background-color: #164959e5;
 }
 #songInfo {
     width: 250px;
@@ -136,6 +161,9 @@ p {
 .playPause i {
     color: #fb5151;
 }
+.playPause i:hover {
+    color: #bb3f3f;
+}
 .progressRange {
     width: 100%;
 }
@@ -143,18 +171,21 @@ p {
 .select {
     position: relative;
     display: inline-block;
-    margin-bottom: 15px;
-    width: 100%;
 }
 .select select {
-    font-family: "Arial";
     display: inline-block;
+    font-family: "Titillium Web", sans-serif;
+    font-size: 20px;
+    font-weight: 400;
+    line-height: normal;
+    text-align: center;
+    height: 56px;
     width: 100%;
     cursor: pointer;
-    padding: 16px 15px;
+    border-top-left-radius: 4px;
+    border-bottom-left-radius: 4px;
     outline: 0;
     border: 0px solid #000000;
-    border-radius: 0px;
     background: #9cabb0;
     color: #000000;
     appearance: none;
@@ -176,7 +207,7 @@ p {
 .select_arrow {
     position: absolute;
     top: 15px;
-    right: 15px;
+    left: 15px;
     pointer-events: none;
     border-style: solid;
     border-width: 8px 5px 0px 5px;

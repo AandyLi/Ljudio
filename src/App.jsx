@@ -13,6 +13,7 @@ export const Context = createContext();
 function App() {
     const [context, setContext] = useState({
         results: [],
+        searchInput: "",
         artist: {},
         artistClicked: false,
         songs: [],
