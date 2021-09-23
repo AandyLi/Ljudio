@@ -2,12 +2,8 @@ import React, { useContext, useEffect, useState } from "react";
 import { Context } from "../App";
 import "./SearchResults.css";
 import playingGif from "../img/sound.gif";
-
-import ReactDOM from "react-dom";
 import {
     BrowserRouter as Router,
-    Route,
-    Switch,
     useParams,
     useHistory,
 } from "react-router-dom";

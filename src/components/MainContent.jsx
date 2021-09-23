@@ -6,7 +6,6 @@ import {
     BrowserRouter as Router,
     Switch,
     Route,
-    Link,
     useHistory,
 } from "react-router-dom";
 function MainContent() {
@@ -25,10 +24,6 @@ function MainContent() {
     const changeSearchInput = (value) => {
         setInput(value);
         console.log(value, searchInput);
-    };
-
-    const test = () => {
-        console.log(searchValue);
     };
     function Search() {
         // router push

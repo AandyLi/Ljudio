@@ -1,6 +1,13 @@
 import React, { useContext, useEffect, useState } from "react";
 import { Context } from "../App";
+import {
+    BrowserRouter as Router,
+    useHistory,
+    useLocation,
+} from "react-router-dom";
 function PlayerControls() {
+    const history = useHistory();
+    const oldUrl = useLocation();
     const [isPlaying, setIsPlaying] = useState(true);
     const [playProgress, setPlayProgress] = useState(0);
     const [maxDuration, setMaxDuration] = useState(0);
@@ -55,7 +62,16 @@ function PlayerControls() {
             title: context.results[player.currentSongIndex].name,
         };
         updateContext({ player: player });
+        ChangeUrl(player.currentSongId);
     }
+    function ChangeUrl(id) {
+        var newUrl = oldUrl.pathname.substr(
+            0,
+            oldUrl.pathname.lastIndexOf("/")
+        );
+        history.push(newUrl + "/" + id);
+    }
+
     function Previous() {
         var id = context.results[context.player.currentSongIndex - 1].videoId;
 
@@ -72,6 +88,7 @@ function PlayerControls() {
             title: context.results[player.currentSongIndex].name,
         };
         updateContext({ player: player });
+        ChangeUrl(player.currentSongId);
     }
 
     function CurrentArtist() {
