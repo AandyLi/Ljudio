@@ -76,14 +76,14 @@ function PlayerControls() {
 
     function CurrentArtist() {
         if (!context.player.currentSong) {
-            return <h3>Undefined</h3>;
+            return <h3></h3>;
         } else {
             return <h3>{context.player.currentSong.artist}</h3>;
         }
     }
     function CurrentSong() {
         if (!context.player.currentSong) {
-            return <h4>Undefined</h4>;
+            return <h4></h4>;
         } else {
             return <h4>{context.player.currentSong.title}</h4>;
         }
