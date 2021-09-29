@@ -6,9 +6,6 @@ function onYouTubeIframeAPIReady() {
         events: {
             onStateChange: onPlayerStateChange,
         },
-        playerVars: {
-            origin: window.location.host,
-        },
     });
 }
 
